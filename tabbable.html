@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Barrio' rel='stylesheet'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Codystar' rel='stylesheet'>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Cabin Sketch' rel='stylesheet'>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<meta charset="ISO-8859-1">
+
+<script>
+$(document).ready(function(){
+    
+  $("table").hide();
+ 
+});
+function show(){
+ 
+  $("#myTable > tbody").empty();
+  $("table").show();
+  var e = document.getElementById("company");
+  var state_name = e.options[e.selectedIndex].value;
+
+  //console.log(state_name);
+  //state_name= String(state_name);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", "https://api.covid19india.org/v2/state_district_wise.json", true);
+    xmlhttp.setRequestHeader("Accept", "application/json");
+    xmlhttp.send();
+      xmlhttp.onreadystatechange = function() {//2
+        if (this.readyState == 4 && this.status == 200) {//3
+        var myObj = JSON.parse(this.responseText);
+      //console.log(myObj);
+       for(var k=0;k<myObj.length;k++)
+       {
+        var State_name=myObj[k].state;
+        // console.log(State_name);
+        if(State_name==state_name)
+        {
+           var Dis_Data=myObj[k].districtData;
+           console.log(Dis_Data.length);
+          for(var j=0;j<Dis_Data.length;j++)
+          {
+            //console.log(State_name[j]);
+            var District_name=Dis_Data[j].district;
+            console.log(District_name);
+            var Conf_Cases_District=Dis_Data[j].confirmed;
+            console.log(Conf_Cases_District);
+            // var Confirmed_Cases=State_name[j].confirmed;
+              var markup = "<tr><td>" + District_name + "</td><td>" + Conf_Cases_District+ "</td></tr>";
+             $("table tbody").append(markup);
+
+          }
+
+        }
+        
+       }
+      
+     
+    }//3
+  };//2
+  
+  };
+
+
+
+
+
+
+</script>
+	
+<title></title>
+<style>
+  @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+.display-12
+  {
+    font-size:46px;
+		font-family: 'Cabin Sketch';
+   
+  }
+ th, td {
+    font-size: 16px;
+    font-style: italic;
+  }
+  
+  .card-header{
+    font-family: 'Barrio';
+    color: white;
+  }
+  
+  .card{
+    width: 140px;
+  height: 100px;
+  
+  }
+  
+
+
+#nav-1{
+  height: 50px;
+}  
+     
+.pb-60 {
+  padding-bottom: 60px;
+}
+.pt-60 {
+  padding-top: 60px;
+}
+.mb-60 {
+  margin-bottom: 60px;
+}
+p {
+  font-weight: 300;
+  font-size: 14px;
+}
+.section-title p {
+  font-size: 24px;
+  font-family: Oleo Script;
+  margin-bottom: 0px;
+}
+.section-title h4 {
+  font-size: 40px;
+  text-transform: capitalize;
+  color: #FF5E18;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 25px;
+}
+.section-title h4::before {
+  width: 80px;
+  height: 1.5px;
+  bottom: 0;
+  left: 50%;
+  margin-left: -40px;
+}
+.section-title h4::before, .section-title h4::after {
+  position: absolute;
+  content: "";
+  background-color: #FF5E18;
+}
+.section-title h4::after {
+  width: 40px;
+  height: 1.5px;
+  bottom: -5px;
+  left: 50%;
+  margin-left: -20px;
+}
+.single_service.service_right {
+  padding-right: 70px;
+  padding-left: 0;
+  text-align: right;
+}
+.single_service.service_right img {
+  right: 0;
+  left: auto;
+  margin-top: 0;
+}
+.single_service:nth-child(1), .single_service:nth-child(2) {
+  border-bottom: 1px dashed #333;
+  padding-bottom: 15px;
+}
+.single_service img {
+  max-width: 45px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.single_service {
+  position: relative;
+  padding-left: 70px;
+  margin-bottom: 35px;
+}
+
+
+
+</style>
+</head>
+<body>
+
+
+<!-- As a heading -->
+
+<nav id="nav-1" class="navbar navbar-light" style="background-color: #e3f2fd;">
+ <h1 class="display-12">India Covid Tracker</h1>
+<br>
+</nav>
+<nav id="nav-2" class="navbar navbar-expand-lg navbar-expand-sm navbar-expand-md navbar-expand navbar-light" style="background-color: #e3f2fd;">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+     <li class="nav-item ">
+        <a class="nav-link" href="/">
+          <i class="fa fa-home"></i>
+          Home
+         
+          </a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/district_wise">
+		 <i class="fa fa-book fa-fw"></i> DistricWise
+			 <span class="sr-only">(current)</span>
+		  </a>
+     
+	</li>
+		<li class="nav-item ">
+        <a class="nav-link" href="/helpline">
+		 <i class="fa fa-pencil fa-fw"></i> Help
+		  </a>
+     
+	</li>
+      </ul>
+  </div>
+</nav>
+
+
+
+
+
+<br>
+
+<div align="center" class="form-group">
+  <div align="center" class="col -12 col-sm-12 col-md-3 col-lg-3">
+    <select id="company" class="form-control" onchange="show()">
+      <option><h4>Choose State</h4></option>
+            <option value="Kerala">Kerala</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+		
+		
+		    <option value="Ladakh">Ladakh</option>
+            <option value="Delhi">Tamil Nadu</option>
+		
+		
+		
+		   <option value="Karnataka">Karnataka</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="Odisha">Odisha</option>
+		
+		
+		 
+		   <option value="West Bengal">West Bengal</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Madhya Pradesh">Madhya Pradesh<option>
+          
+       
+    </select> 
+  </div>
+</div>
+
+
+<div class="container">
+  <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+  <div class="row">
+    <div class="col-12 col-md-6 col-sm-6">
+    
+    <table align="center" id="myTable" cellspacing="0" cellpadding="0" class="table table-striped table-bordered" align="left" >
+       <thead>
+          <tr>
+             <th>District</th>
+             <th>Confirmed Patients</th>
+            
+          </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table></div>
+	  
+	  <div class="col-12 col-md-6 col-sm-6">
+    
+   <section class="services pt-60 pb-60" id="services">
+         <div class="container">
+            <div class="row">
+               <div class="col-xl-12">
+                  <div class="section-title text-center mb-60">
+                     <p>Take precautions and help us in flattening the curve</p>
+                     <h4>Together we can fight Covid 19</h4>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-4 col-sm-12">
+                  <div class="single_service service_right">
+                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRexwxGZ342HlLdJ0QD_3ys_cZyae2H28LSojfUBz0fHQ8_77dL&usqp=CAU" alt="">
+                     <h4>Wear Mask</h4>
+                     <p></p>
+                  </div>
+                  <div class="single_service service_right">
+                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRwwL1r4ir_J0zEhammdZAaR6AOTOxJgMNurtJGftIJRbwt5txL&usqp=CAU" alt="">
+                     <h4>Wash Hands</h4>
+                     <p></p>
+                  </div>
+                  <div class="single_service service_right">
+                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRpMk-Y4QF1zu27C52QlQrsKBvuVD8Wc-Frf2w4Jcza1v1eqgdq&usqp=CAU" alt="">
+                     <h4>Sneeze and Cough in tissue</h4>
+                     <p></p>
+                  </div>
+               </div>
+               <div class="col-md-4 col-sm-12 text-center">
+                  <div class="single_mid">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBqZyJ2O-mJjsfEcJyIXeJyvCxlWDzDrgtG_JecMQHF1D46lB4&usqp=CAU" alt="">
+                  </div>
+               </div>
+               <div class="col-md-4 col-sm-12">
+                  <div class="single_service">
+                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-1R56tib-39siGVIe-6Pr4hvnVhm-stDjys1uHZWajrJRkb2j&usqp=CAU" alt="">
+                     <h4>Stay Home</h4>
+                     <p></p>
+                  </div>
+                  <div class="single_service">
+                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSjqLLUhJYRrljn8mW4lNQDWMgYLCHmqV76jHcq9bYGgw44cbaL&usqp=CAU" alt="">
+                     <h4>Practice Food Safety</h4>
+                     <p></p>
+                  </div>
+                  <div class="single_service">
+                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRbBwmWbRwoLZNE9myZoV0dancbTPMpXjzA5hsUDflGDvYYUAV5&usqp=CAU" alt="">
+                     <h4>Helpline 1075(toll free)|011-23978046</h4>
+                     <p></p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+
+ 
+
+
+  
+  
+</body>
+</html>
